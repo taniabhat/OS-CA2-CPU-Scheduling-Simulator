@@ -1,3 +1,4 @@
+!pip install matplotlib numpy pandas
 import matplotlib.pyplot as plt
 import numpy as np
 def fcfs(processes):
