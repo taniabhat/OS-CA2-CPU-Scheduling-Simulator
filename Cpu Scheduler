@@ -130,3 +130,16 @@ run_simulation(processes, algorithm="FCFS")
 run_simulation(processes, algorithm="SJF")  
 run_simulation(processes, algorithm="Round Robin", quantum=2)  
 run_simulation(processes, algorithm="Priority Scheduling")
+
+# Example Usage-2:
+processes = [
+    [1, 0, 8, 0],  # [PID, Arrival Time, Burst Time, Priority]
+    [2, 4, 6, 0],
+    [3, 1, ,5 0],
+    [4, 2, 3, 0]
+]
+
+run_simulation(processes, algorithm="FCFS")  
+run_simulation(processes, algorithm="SJF")  
+run_simulation(processes, algorithm="Round Robin", quantum=3)  
+run_simulation(processes, algorithm="Priority Scheduling")
