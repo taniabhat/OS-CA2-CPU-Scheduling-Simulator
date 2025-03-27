@@ -1,5 +1,4 @@
 import matplotlib.pyplot as plt
-import numpy as np
 
 class Process:
     def __init__(self, pid, arrival_time, burst_time, priority=0):
@@ -92,29 +91,42 @@ def plot_gantt_chart(gantt_chart, title):
     plt.show()
 
 def main():
-    processes = [
-        Process(1, 0, 5, 2),
-        Process(2, 1, 3, 1),
-        Process(3, 2, 8, 4),
-        Process(4, 3, 6, 3)
-    ]
+    processes = []
+    n = int(input("Enter the number of processes: "))
+    for i in range(n):
+        arrival_time = int(input(f"Enter arrival time for Process {i+1}: "))
+        burst_time = int(input(f"Enter burst time for Process {i+1}: "))
+        priority = int(input(f"Enter priority for Process {i+1} (lower number = higher priority): "))
+        processes.append(Process(i+1, arrival_time, burst_time, priority))
     
-    methods = {
-        'FCFS': fcfs_scheduling,
-        'SJN': sjn_scheduling,
-        'Priority': priority_scheduling,
-    }
+    print("\nChoose Scheduling Algorithm:")
+    print("1. FCFS")
+    print("2. SJN")
+    print("3. Priority Scheduling")
+    print("4. Round Robin")
+    choice = int(input("Enter your choice (1-4): "))
     
-    for name, func in methods.items():
-        scheduled_processes, gantt_chart = func(processes[:])
-        print(f'\n{name} Scheduling:')
-        for p in scheduled_processes:
-            print(f'P{p.pid}: AT={p.arrival_time}, BT={p.burst_time}, CT={p.completion_time}, TAT={p.turnaround_time}, WT={p.waiting_time}')
-        plot_gantt_chart(gantt_chart, f'{name} Gantt Chart')
+    if choice == 1:
+        scheduled_processes, gantt_chart = fcfs_scheduling(processes[:])
+        title = "FCFS Gantt Chart"
+    elif choice == 2:
+        scheduled_processes, gantt_chart = sjn_scheduling(processes[:])
+        title = "SJN Gantt Chart"
+    elif choice == 3:
+        scheduled_processes, gantt_chart = priority_scheduling(processes[:])
+        title = "Priority Scheduling Gantt Chart"
+    elif choice == 4:
+        quantum = int(input("Enter time quantum for Round Robin: "))
+        scheduled_processes, gantt_chart = round_robin_scheduling(processes[:], quantum)
+        title = "Round Robin Gantt Chart"
+    else:
+        print("Invalid choice!")
+        return
     
-    print('\nRound Robin Scheduling (Quantum = 2):')
-    scheduled_processes, gantt_chart = round_robin_scheduling(processes[:], 2)
-    plot_gantt_chart(gantt_chart, 'Round Robin Gantt Chart')
-    
+    print(f'\n{title}:')
+    for p in scheduled_processes:
+        print(f'P{p.pid}: AT={p.arrival_time}, BT={p.burst_time}, CT={p.completion_time}, TAT={p.turnaround_time}, WT={p.waiting_time}')
+    plot_gantt_chart(gantt_chart, title)
+
 if __name__ == "__main__":
     main()
